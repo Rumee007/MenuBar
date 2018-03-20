@@ -16,7 +16,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements MenuItem.OnMenuItemClickListener{
+public class MainActivity extends AppCompatActivity implements MenuItem.OnMenuItemClickListener {
 
     private boolean isLoggedIn = false;
     private ListView mListView;
@@ -26,13 +26,16 @@ public class MainActivity extends AppCompatActivity implements MenuItem.OnMenuIt
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        mListView = findViewById(R.id.countryListView);
+
         populateListViewWithItems();
+        mListView = findViewById(R.id.countryListView);
+        // Use when pop-up type creation
         //registerForContextMenu(mListView);
+
         mListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                if(actionMode != null){
+                if (actionMode != null) {
                     return false;
                 }
                 actionMode = startActionMode(callback);
@@ -44,7 +47,7 @@ public class MainActivity extends AppCompatActivity implements MenuItem.OnMenuIt
     }
 
     private void populateListViewWithItems() {
-        List<String>countries = new ArrayList<>();
+        List<String> countries = new ArrayList<>();
         countries.add("Bangladesh");
         countries.add("Bangladesh");
         countries.add("Bangladesh");
@@ -54,15 +57,14 @@ public class MainActivity extends AppCompatActivity implements MenuItem.OnMenuIt
         countries.add("Bangladesh");
         countries.add("Bangladesh");
         countries.add("Bangladesh");
-        ArrayAdapter<String>adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,
-                countries);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, countries);
         mListView.setAdapter(adapter);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.main_menu,menu);
+        inflater.inflate(R.menu.main_menu, menu);
         return true;
     }
 
@@ -70,10 +72,10 @@ public class MainActivity extends AppCompatActivity implements MenuItem.OnMenuIt
     public boolean onPrepareOptionsMenu(Menu menu) {
         MenuItem loginItem = menu.findItem(R.id.login);
         MenuItem logoutItem = menu.findItem(R.id.logout);
-        if(isLoggedIn){
+        if (isLoggedIn) {
             loginItem.setVisible(false);
             logoutItem.setVisible(true);
-        }else{
+        } else {
             loginItem.setVisible(true);
             logoutItem.setVisible(false);
         }
@@ -82,7 +84,7 @@ public class MainActivity extends AppCompatActivity implements MenuItem.OnMenuIt
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.settings:
                 Toast.makeText(this, "settings", Toast.LENGTH_SHORT).show();
                 return true;
@@ -94,29 +96,30 @@ public class MainActivity extends AppCompatActivity implements MenuItem.OnMenuIt
                 Toast.makeText(this, "logout", Toast.LENGTH_SHORT).show();
                 isLoggedIn = false;
                 return true;
-                default:
-                    return super.onOptionsItemSelected(item);
+            default:
+                return super.onOptionsItemSelected(item);
         }
     }
 
+    /******************************** Create for POP_UP type menu **********************************/
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
-        getMenuInflater().inflate(R.menu.context_menu,menu);
+        getMenuInflater().inflate(R.menu.context_menu, menu);
     }
 
     @Override
     public boolean onContextItemSelected(MenuItem item) {
         AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.edit:
                 Toast.makeText(this, "edit", Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.delete:
                 Toast.makeText(this, "delete", Toast.LENGTH_SHORT).show();
                 return true;
-                default:
-                    return super.onContextItemSelected(item);
+            default:
+                return super.onContextItemSelected(item);
         }
     }
 
@@ -124,7 +127,7 @@ public class MainActivity extends AppCompatActivity implements MenuItem.OnMenuIt
         @Override
         public boolean onCreateActionMode(ActionMode mode, Menu menu) {
             MenuInflater inflater = mode.getMenuInflater();
-            inflater.inflate(R.menu.context_menu,menu);
+            inflater.inflate(R.menu.context_menu, menu);
             return true;
         }
 
@@ -135,7 +138,7 @@ public class MainActivity extends AppCompatActivity implements MenuItem.OnMenuIt
 
         @Override
         public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
-            switch (item.getItemId()){
+            switch (item.getItemId()) {
                 case R.id.edit:
                     Toast.makeText(MainActivity.this, "edit", Toast.LENGTH_SHORT).show();
                     mode.finish();
